@@ -1,11 +1,15 @@
 pipeline {
+  agent { label 'linux' }
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
   environment {
-    DOCKERHUB_CREDENTIALS = credentials('matos-dockerhub')
+    DOCKERHUB_CREDENTIALS = credentials('darinpope-dockerhub')
   }
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t matos007/titanic:latest .'
+        sh 'docker build -t darinpope/dp-alpine:latest .'
       }
     }
     stage('Login') {
@@ -15,7 +19,7 @@ pipeline {
     }
     stage('Push') {
       steps {
-        sh 'docker push matos007/titanic:latest'
+        sh 'docker push darinpope/dp-alpine:latest'
       }
     }
   }
